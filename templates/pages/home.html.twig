@@ -1,0 +1,39 @@
+{%extends 'base.html.twig'%}
+
+{% block title 'Agence Aix Plazza' %}
+
+{% block body %}
+
+    <div class="jumbotron text-center ">
+        <h1>Bienvenue sur l'Agence Aix Plazza</h1>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione consequatur facilis quod facere incidunt mollitia tempore labore, harum sed modi, accusantium maiores sunt dolorum voluptates fugiat vitae excepturi, repellat delectus.
+        </p>
+    
+    </div>
+    <div class="container">
+        <h2>Les derniers biens</h2>
+        <div class="row flex">
+            {% for property in properties %}
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                            </h5>
+                            <a href="{{ path('property.show',{slug: property.slug, id: property.id }) }}">
+                                {{ property.title }}
+                            </a>
+                            <p class="card-text">
+                                {{ property.city }} ({{ property.postalCode}})
+                            </p>
+                            <div class="text-primary" style="font-weight:600;font-size:2em">
+                                {{ property.formattedPrice }} €
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
