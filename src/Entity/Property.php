@@ -6,9 +6,14 @@ use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
+/**
+ * @UniqueEntity("title")
+ */
 class Property
 {
     const HEAT = [
@@ -21,7 +26,10 @@ class Property
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    /**
+     * @Assert\Length(min=2, max=255)
+     */
     private $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -31,6 +39,9 @@ class Property
     private $description;
 
     #[ORM\Column(type: 'integer')]
+    /**
+     * @Assert\Range(min=10, max=400)
+     */
     private $surface;
 
     #[ORM\Column(type: 'integer')]
@@ -55,6 +66,9 @@ class Property
     private $address;
 
     #[ORM\Column(type: 'string', length: 255)]
+     /**
+     * @Assert\Regex("/^[0-9]{5}$/")
+     */
     private $postal_code;
 
     #[ORM\Column(type: 'boolean')]
@@ -114,7 +128,7 @@ class Property
         return $this;
     }
 
-    public function getSurface(): ?int
+    public function getSurface(): int
     {
         return $this->surface;
     }
