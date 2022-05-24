@@ -71,14 +71,36 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/edition-password/{id}', name: 'user.edit.password') ]
-    public function editPassword(User $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+    /**
+     * This controller allow us to edit user password
+     *
+     * @param User $user
+     * @param Request $request
+     * @param UserPasswordHasherInterface $hasher
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function editPassword(
+        User $user, Request $request, 
+        UserPasswordHasherInterface $hasher, 
+        EntityManagerInterface $manager
+    ): Response
     {
+        if(!$this->getUser()) {
+            return $this->redirectToRoute('login');
+        }
+
+        if($this->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
+
         $form = $this->createForm(UserPasswordType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() ) {
             if($hasher->isPasswordValid($user, $form->getData()['plainPassword'])){
 
-                $user->setPassword( $hasher->hashPassword($user, $form->getData()['newPassword']) );
+                $user->setUpdatedAt(new \DateTimeImmutable());
+                $user->setPlainPassword( $form->getData()['newPassword'] );
                 
                 $manager->persist($user);
                 $manager->flush();
@@ -98,9 +120,7 @@ class UserController extends AbstractController
 
         }
         return $this->render('user/edit_password.html.twig',
-                            [
-                                'form'=>$form->createView()
-                            ]
+                            ['form'=>$form->createView()]
                 );
     }
 

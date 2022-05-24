@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220520174715 extends AbstractMigration
+final class Version20220524094328 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,14 @@ final class Version20220520174715 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE property CHANGE slug slug LONGTEXT DEFAULT NULL');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8BF21CDE2B36786B ON property (title)');
+        $this->addSql('ALTER TABLE user ADD updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE user');
         $this->addSql('DROP INDEX UNIQ_8BF21CDE2B36786B ON property');
-        $this->addSql('ALTER TABLE property CHANGE slug slug VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE user DROP updated_at');
     }
 }
