@@ -18,10 +18,10 @@ class UserListener
         $this->encodePassword($user);       
     }
 
-    public function preUpdate(User $user)
-    {
-        $this->encodePassword($user);       
-    }
+    // public function preUpdate(User $user)
+    // {
+    //     $this->encodePassword($user);       
+    // }
 
     /**
      * Encode password based on plainpassword
@@ -31,17 +31,19 @@ class UserListener
      */
     public function encodePassword(User $user)
     {
-        if ($user->getPlainPassword() === null){
-            return;
-        }
-
-        $user->setPassword(
-            $this->hasher->hashPassword(
-                $user,
-                $user->getPlainPassword()
-                )
-        );
-        // $user->setPlainPassword('');
+        if ( 
+            $user->getPlainPassword() !== null
+            && !empty($user->getPlainPassword())
+            ){
+            
+            $user->setPassword(
+                $this->hasher->hashPassword(
+                    $user,
+                    $user->getPlainPassword()
+                    )
+                );
+                // $user->setPlainPassword('');
+            }
 
     }
 

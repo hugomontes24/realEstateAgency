@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password = 'password';
 
     #[Assert\Length(min: 2, max: 255)]
-    private ?string $plainPassword;
+    private ?string $plainPassword='';
 
     #[ORM\Column(type: 'json')]
     #[Assert\NotNull()]
@@ -141,7 +141,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPlainPassword(): ?string
     {
-        return $this->plainPassword;
+        if($this->plainPassword !== null){
+            return $this->plainPassword;
+        }
     }
 
     public function setPlainPassword(string $plainPassword): self
