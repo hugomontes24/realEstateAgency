@@ -2,13 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-// use Generator;
-use PhpParser\Node\Expr\New_;
 use \Faker\Factory;
+use App\Entity\User;
 use Faker\Generator;
+// use Generator;
+use App\Entity\Contact;
+use PhpParser\Node\Expr\New_;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 // use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -41,22 +42,36 @@ class AppFixtures extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
+
         //Users
-        for($i = 0; $i<1; $i++){
-            $user = new User();
+        // for($i = 0; $i<1; $i++){
+        //     $user = new User();
 
-            // $hashPassword = $this->hasher->hashPassword(
-            //     $user,
-            //     'password'
-            // );
+        //     // $hashPassword = $this->hasher->hashPassword(
+        //     //     $user,
+        //     //     'password'
+        //     // );
 
-            // $user->setUsername($this->faker->name())
-            $user->setUsername('demo')
+        //     // $user->setUsername($this->faker->name())
+        //     $user->setUsername('demo')
 
-                ->setPlainPassword('demo')
-                ->setRoles(['ROLE_ADMIN']);
+        //         ->setPlainPassword('demo')
+        //         ->setRoles(['ROLE_ADMIN']);
 
-            $manager->persist($user);
+        //     $manager->persist($user);
+        // }
+
+        // Contact
+        for ($i=0; $i < 5 ; $i++) { 
+            $contact = new Contact;
+            $date = $contact->getCreatedAt()->format('d-m-Y');
+            $contact
+                ->setUsername($this->faker->name())
+                ->setSubject('Demande n° '. ($i+1))
+                ->setMessage($this->faker->text())
+            ;
+        $manager->persist($contact);
+
         }
 
         $manager->flush();
