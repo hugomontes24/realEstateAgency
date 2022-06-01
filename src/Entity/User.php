@@ -28,14 +28,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 255)]
-    private string $password = 'password';
+    private string $password = 'demo';
 
     #[Assert\Length(min: 2, max: 255)]
     private ?string $plainPassword='';
 
     #[ORM\Column(type: 'json')]
     #[Assert\NotNull()]
-    private array $roles = ['ROLE_ADMIN'];
+    private array $roles = ['ROLE_USER'];
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private \DateTimeImmutable $updatedAt;

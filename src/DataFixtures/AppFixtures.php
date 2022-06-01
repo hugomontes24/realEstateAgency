@@ -44,35 +44,45 @@ class AppFixtures extends Fixture
         // $manager->persist($product);
 
         //Users
-        // for($i = 0; $i<1; $i++){
-        //     $user = new User();
+        $users = [];
+        $admin = new User();
+        $admin->setUsername('admin')
+            ->setRoles(['ROLE_USER, ROLE_ADMIN'])
+            ->setPlainPassword('admin');
+
+        $users[] = $admin;
+        $manager->persist($admin);
+
+        for($i = 0; $i<5; $i++){
+            $user = new User();
 
         //     // $hashPassword = $this->hasher->hashPassword(
         //     //     $user,
         //     //     'password'
         //     // );
 
-        //     // $user->setUsername($this->faker->name())
-        //     $user->setUsername('demo')
 
-        //         ->setPlainPassword('demo')
-        //         ->setRoles(['ROLE_ADMIN']);
+            $user->setUsername($this->faker->name())
+            // $user->setUsername('demo')
 
-        //     $manager->persist($user);
-        // }
+                ->setPlainPassword('demo')
+                ->setRoles(['ROLE_USER']);
+
+            $manager->persist($user);
+        }
+    
+    
 
         // Contact
-        for ($i=0; $i < 5 ; $i++) { 
-            $contact = new Contact;
-            $date = $contact->getCreatedAt()->format('d-m-Y');
-            $contact
-                ->setUsername($this->faker->name())
-                ->setSubject('Demande n° '. ($i+1))
-                ->setMessage($this->faker->text())
-            ;
-        $manager->persist($contact);
-
-        }
+        // for ($i=0; $i < 5 ; $i++) { 
+        //     $contact = new Contact;
+        //     $date = $contact->getCreatedAt()->format('d-m-Y');
+        //     $contact
+        //         ->setUsername($this->faker->name())
+        //         ->setSubject('Demande n° '. ($i+1))
+        //         ->setMessage($this->faker->text())
+        //     ;
+    //     }
 
         $manager->flush();
     }
